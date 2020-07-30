@@ -1,10 +1,12 @@
 package gr.codehub.bookstore;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import java.io.FileNotFoundException;
 
 public class Ui {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException {
         Store store = new Store();
 
         try {
@@ -12,6 +14,8 @@ public class Ui {
         } catch (FileNotFoundException e) {
             System.out.println("The file cannot be found");
         }
+
+        System.out.println(  store.toJson());
 
 //        Book book = new Book();
 //        book.setTitle("The red book");
@@ -24,9 +28,13 @@ public class Ui {
 //        store.create(book);
 //        store.create(book2);
 
-       store.showBooks();
-
-
+//       store.showBooks();
+//        System.out.println(store.countBooksBelowOrEqualGivenPrice(5));
+//        try {
+//            store.saveToFile("neo.txt");
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
     }
 }

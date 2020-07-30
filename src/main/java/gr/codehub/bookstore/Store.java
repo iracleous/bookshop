@@ -1,7 +1,8 @@
 package gr.codehub.bookstore;
 
 
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,35 +16,35 @@ public class Store {
     private List<Book> books;
 
 
-    public Store(){
+    public Store() {
         books = new ArrayList<>();
     }
 
     //CRUD   create, read, update, delete
 
-    public void create(Book book){
+    public void create(Book book) {
         books.add(book);
     }
 
 
-    public void showBooks(){
-           for(int i=0;i<books.size();i++) {
-               System.out.println(books.get(i));
-           }
+    public void showBooks() {
+        for (int i = 0; i < books.size(); i++) {
+            System.out.println(books.get(i));
+        }
     }
 
-    public void showBooks2(){
-        for(Book book:books) {
+    public void showBooks2() {
+        for (Book book : books) {
             System.out.println(book);
         }
     }
 
     public void loadFromFile(String filename) throws FileNotFoundException {
         File file = new File(filename);
-        Scanner scanner = new Scanner (file);
+        Scanner scanner = new Scanner(file);
         while (scanner.hasNext()) {
             String line = scanner.nextLine();
-            String []words = line.split(",");
+            String[] words = line.split(",");
             Book book = new Book();
             book.setTitle(words[0]);
             book.setPrice(Double.parseDouble(words[1].trim()));
@@ -52,35 +53,35 @@ public class Store {
         }
     }
 
-    public void delete(int index){
+    public void delete(int index) {
         if (index >= 0 && index < books.size())
             books.remove(index);
     }
 
-    public void changePrice(double newPrice, int index){
+    public void changePrice(double newPrice, int index) {
         if (index >= 0 && index < books.size())
             books.get(index)
                     .setPrice(newPrice);
     }
 
 
-    public void changePrice(double newPrice, String title){
-         for (Book book:books)
+    public void changePrice(double newPrice, String title) {
+        for (Book book : books)
             if (book.getTitle().equals(title))
-                 book.setPrice(newPrice);
+                book.setPrice(newPrice);
     }
 
-    public double sumCost(){
+    public double sumCost() {
         double sum = 0;
-        for (Book book: books)
+        for (Book book : books)
             sum += book.getPrice() * book.getQuantity();
 
         return sum;
     }
 
-    public int countBooksBelowOrEqualGivenPrice(double givenPrice){
+    public int countBooksBelowOrEqualGivenPrice(double givenPrice) {
         int count = 0;
-        for (Book book:books)
+        for (Book book : books)
             if (book.getPrice() <= givenPrice)
                 count += book.getQuantity();
         return count;
@@ -91,16 +92,21 @@ public class Store {
         File file = new File(filename);
         PrintWriter pw = new PrintWriter(file);
 
-        for (Book book : books){
-            pw.println(book.getTitle()+","+ book.getPrice() +","+ book.getQuantity());
+        for (Book book : books) {
+            pw.println(book.getTitle() + "," + book.getPrice() + "," + book.getQuantity());
         }
         pw.close();
 
     }
 
     //convertTojson
+    public String toJson() throws JsonProcessingException {
+        String json = new ObjectMapper().writeValueAsString(books);
+        return json;
+
+    }
 
 
- }
+}
 
 
