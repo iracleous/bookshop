@@ -1,0 +1,3 @@
+proto biblio, 12.30, 5
+deytero biblio, 13.40, 6
+trito biblio, 10.40, 6
